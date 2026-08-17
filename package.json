@@ -1,0 +1,34 @@
+{
+  "name": "todo-enterprise-layered",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@auth/prisma-adapter": "^2.11.3",
+    "@prisma/client": "^6.1.0",
+    "next": "15.1.0",
+    "next-auth": "5.0.0-beta.25",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "prisma": "^6.1.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5"
+  },
+  "description": "Enterprise layered todo app - Next.js 15, Auth.js v5, Prisma, BFF + Event Bus pattern",
+  "main": "jest.config.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "author": "",
+  "license": "ISC"
+}
