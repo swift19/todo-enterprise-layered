@@ -1,6 +1,7 @@
 # Todo Enterprise Layered - Fixed v4
 
-## Fixes applied from chat
+## Fixes applied
+
 - Tailwind v4: postcss.config.mjs with @tailwindcss/postcss, globals.css uses @import tailwindcss
 - global.d.ts to fix Cannot find module './globals.css'
 - dev script: next dev --no-turbopack
@@ -10,6 +11,7 @@
 - Persistence: todos saved per user
 
 ## Setup
+
 1. npm install
 2. Copy .env.example to .env and fill
 3. npx prisma db push
