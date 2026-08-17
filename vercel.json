@@ -1,5 +1,0 @@
-{
-  "framework": "nextjs",
-  "buildCommand": "npm run vercel-build",
-  "functions": { "app/api/bff/**/*.ts": { "runtime": "edge" } }
-}
