@@ -18,3 +18,7 @@
 4. npm run dev
 
 Login with Google then todos persist on refresh.
+
+## Running App in Vercel
+
+https://todo-enterprise-layered-jf262epdl-test-project-x.vercel.app/
