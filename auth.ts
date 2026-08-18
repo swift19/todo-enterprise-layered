@@ -5,29 +5,13 @@ import Facebook from "next-auth/providers/facebook";
 import Discord from "next-auth/providers/discord";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./lib/db";
+import authConfig from "./auth.config";
 
 // NextAuth v5
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   trustHost: true,
-  providers: [
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-    GitHub({
-      clientId: process.env.GITHUB_ID!,
-      clientSecret: process.env.GITHUB_SECRET!,
-    }),
-    Facebook({
-      clientId: process.env.FACEBOOK_ID!,
-      clientSecret: process.env.FACEBOOK_SECRET!,
-    }),
-    Discord({
-      clientId: process.env.DISCORD_ID!,
-      clientSecret: process.env.DISCORD_SECRET!,
-    }),
-  ],
+  ...authConfig,
   session: { strategy: "jwt" },
   callbacks: {
     async jwt({ token, user }) {
@@ -44,4 +28,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
 });
-console.log("USING CLIENT ID:", process.env.GOOGLE_CLIENT_ID?.slice(0, 10));
+// console.log("USING CLIENT ID:", process.env.GOOGLE_CLIENT_ID?.slice(0, 10));
