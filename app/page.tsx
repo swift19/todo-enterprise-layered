@@ -21,11 +21,14 @@ export default function Page() {
   useEffect(() => { if (status === 'authenticated') load(); }, [status]);
 
   const add = async () => {
-    if (!newTodo.trim()) return;
-    const res = await fetch('/bff/todos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: newTodo, priority }) });
-    const data = await res.json() 
-    if (res.ok) { setNewTodo('');setErrorMsg(''); load(); } else { setErrorMsg(data.error) }
-  };
+    if (!newTodo.trim()) return
+    const text = newTodo
+    setNewTodo('')
+    const res = await fetch('/bff/todos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text, priority })})
+    const data = await res.json()
+    if (!res.ok) return setErrorMsg(data.error)
+    setTodos(t => [data, ...t]) 
+  }
 
   const toggle = async (t: Todo) => {
     await fetch(`/bff/todos/${t.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ done: !t.done }) });
@@ -33,6 +36,7 @@ export default function Page() {
   };
 
   const remove = async (id: string) => {
+    setTodos(prev => prev.filter(t => t.id !== id))
     await fetch(`/bff/todos/${id}`, { method: 'DELETE' });
     load();
   };
