@@ -10,6 +10,7 @@ export default function Page() {
   const [filter, setFilter] = useState<'all' | 'active' | 'done'>('all');
   const [newTodo, setNewTodo] = useState('');
   const [priority, setPriority] = useState('MEDIUM');
+  const [errorMsg, setErrorMsg] = useState('')
 
   const load = async () => {
     const res = await fetch('/bff/todos');
@@ -22,7 +23,8 @@ export default function Page() {
   const add = async () => {
     if (!newTodo.trim()) return;
     const res = await fetch('/bff/todos', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text: newTodo, priority }) });
-    if (res.ok) { setNewTodo(''); load(); }
+    const data = await res.json() 
+    if (res.ok) { setNewTodo('');setErrorMsg(''); load(); } else { setErrorMsg(data.error) }
   };
 
   const toggle = async (t: Todo) => {
@@ -63,7 +65,7 @@ export default function Page() {
             </div>
             <button onClick={() => signOut()} className="text-xs bg-zinc-800 border border-zinc-700 px-3 py-1.5 rounded-full">Logout</button>
           </div>
-
+          {errorMsg && <p className="text-red-400 text-xs mb-4 ml-1">{errorMsg}</p>}
           <div className="flex gap-2 mb-4">
             <input value={newTodo} onChange={e=>setNewTodo(e.target.value)} onKeyDown={e=>e.key==='Enter'&&add()} placeholder="New todo..." className="flex-1 bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" />
             <select value={priority} onChange={e=>setPriority(e.target.value)} className="bg-zinc-800 border border-zinc-700 rounded-xl px-3 text-sm"><option>LOW</option><option>MEDIUM</option><option>HIGH</option></select>
