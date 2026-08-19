@@ -29,7 +29,23 @@ export async function DELETE(
 
   const { id } = await params;
 
-  await prisma.todo.delete({ where: { id } });
-  await bus.publish("todo.deleted", { id });
-  return NextResponse.json({ ok: true });
+  try {
+    const existing = await prisma.todo.findFirst({
+      where: { id },
+    });
+
+    if (!existing) {
+      return NextResponse.json({ ok: true });
+    }
+
+    await prisma.todo.delete({ where: { id } });
+    await bus.publish("todo.deleted", { id });
+
+    return NextResponse.json({ ok: true });
+  } catch (e: any) {
+    if (e.code === "P2025") {
+      return NextResponse.json({ ok: true }); // treat as success
+    }
+    throw e;
+  }
 }
